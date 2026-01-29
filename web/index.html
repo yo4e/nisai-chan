@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>2さいちゃん</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>2さいちゃん</h1>
+      <p class="sub">トライグラム / ローカル学習</p>
+    </header>
+
+    <main>
+      <div id="log" class="log" aria-live="polite"></div>
+    </main>
+
+    <footer>
+      <form id="form">
+        <input id="input" type="text" placeholder="はなす…" autocomplete="off" />
+        <button id="send" type="submit">送信</button>
+      </form>
+      <div class="controls">
+        <label class="control">
+          <span>MIN_TOKENS</span>
+          <input id="min-tokens" type="number" min="0" max="50" step="1" value="2" />
+        </label>
+        <label class="control">
+          <span>MAX_TOKENS</span>
+          <input id="max-tokens" type="number" min="1" max="100" step="1" value="20" />
+        </label>
+        <label class="control">
+          <span>SMOOTHING</span>
+          <select id="smoothing-mode">
+            <option value="backoff">backoff</option>
+            <option value="add-k">add-k</option>
+          </select>
+        </label>
+        <label class="control" id="add-k-wrap">
+          <span>ADD_K</span>
+          <input id="add-k" type="number" min="0" max="10" step="0.1" value="0.1" />
+        </label>
+        <label class="control">
+          <span>JOINER</span>
+          <select id="joiner">
+            <option value="">no-space</option>
+            <option value=" ">space</option>
+          </select>
+        </label>
+      </div>
+      <div class="actions">
+        <button id="reset-soft" type="button">Reset（ソフト）</button>
+        <button id="reset-hard" type="button">Reset（ハード）</button>
+        <button id="rebuild" type="button" class="hidden">Rebuild vocab</button>
+      </div>
+      <p class="hint">Rebuild vocabは ?debug=1 で表示</p>
+      <div class="params-note">
+        <div class="note-title">パラメータの説明</div>
+        <div class="note-body">
+          <p>MIN_TOKENS：最低でもこの語数までは続ける。短すぎる返答を防ぐために、ここに達するまではEOS（終了）を候補から外す。</p>
+          <p>MAX_TOKENS：これ以上は伸ばさない上限。長くなりすぎたり、無限ループっぽくなるのを防ぐ。</p>
+          <p>SMOOTHING：未出の組み合わせに当たったときの逃げ方。backoffは安定寄り、add-kは多様性が出る。</p>
+          <p>ADD_K：add-kのk値。大きいほど珍しい語も出やすくなる（やりすぎると散漫になりがち）。</p>
+          <p class="note-tip">観察の目安：add-kはkを大きくすると「語は出るが意味は崩れる」方向に寄りやすい。</p>
+          <p>JOINER：表示だけの区切り。no-spaceは日本語向け、spaceはデバッグで語が見やすい。</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

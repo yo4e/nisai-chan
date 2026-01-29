@@ -11,6 +11,7 @@ const smoothingSelect = document.getElementById("smoothing-mode");
 const addKWrap = document.getElementById("add-k-wrap");
 const addKInput = document.getElementById("add-k");
 const joinerSelect = document.getElementById("joiner");
+const ngramInput = document.getElementById("ngram");
 
 function escapeHtml(text) {
   return String(text)
@@ -46,6 +47,7 @@ async function fetchLog() {
 }
 
 async function sendMessage(text) {
+  const n = Number(ngramInput.value);
   const minTokens = Number(minTokensInput.value);
   const maxTokens = Number(maxTokensInput.value);
   const smoothingMode = smoothingSelect.value;
@@ -57,6 +59,7 @@ async function sendMessage(text) {
     body: JSON.stringify({
       text,
       opts: {
+        n,
         minTokens,
         maxTokens,
         smoothingMode,

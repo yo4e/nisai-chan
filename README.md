@@ -1,5 +1,8 @@
 # 2さいちゃん（Nisai-chan）
 
+ローカル学習の超ミニ n-gram LM。観察と学習用の“動く教材”。  
+Tiny local-learning n-gram LM. A hands-on toy for observation and learning.
+
 **ローカルで動く、学習する超ミニLM**（言語モデル）です。  
 目的は「LMの仕組みを0から理解する」こと。性能ではなく“動く教材”を目指しています。
 

@@ -5,8 +5,8 @@ const DEFAULT_CONFIG = {
   BOS: "<BOS>",
   EOS: "<EOS>",
   N: 3,
-  SMOOTHING_MODE: "backoff",
-  ADD_K: 0.1
+  SMOOTHING_MODE: "add-k",
+  ADD_K: 0.001
 };
 
 const DEFAULT_META = {
@@ -231,6 +231,12 @@ function getBackoffCounts(model, w1, w2) {
   return model.unigram;
 }
 
+function getCountsForN(model, w1, w2, n) {
+  if (n <= 1) return model.unigram;
+  if (n === 2) return model.bigram[w2] || model.unigram;
+  return getBackoffCounts(model, w1, w2);
+}
+
 function buildAddKDistribution(counts, vocabKeys, temp, addK, bannedKeys) {
   const keys = [];
   const logits = [];
@@ -260,6 +266,8 @@ function generateTokens(model, options = {}) {
   const minTokens = Number.isFinite(Number(minTokensRaw)) ? Math.max(0, Math.floor(Number(minTokensRaw))) : 0;
   const minTokensClamped = Math.min(minTokens, maxTokens);
   const temp = options.temp || model.config.TEMP;
+  const nRaw = options.n ?? model.config.N ?? DEFAULT_CONFIG.N;
+  const n = Math.max(1, Math.min(3, Math.floor(Number(nRaw) || DEFAULT_CONFIG.N)));
   const smoothingMode = options.smoothingMode || model.config.SMOOTHING_MODE || "backoff";
   const addKRaw = options.addK ?? model.config.ADD_K ?? DEFAULT_CONFIG.ADD_K;
   const addK = Number.isFinite(Number(addKRaw)) ? Number(addKRaw) : DEFAULT_CONFIG.ADD_K;
@@ -273,7 +281,7 @@ function generateTokens(model, options = {}) {
   for (let i = 0; i < maxTokens; i++) {
     const banEos = out.length < minTokensClamped;
     const bannedKeys = banEos ? [bos, eos] : [bos];
-    const rawCounts = getBackoffCounts(model, w1, w2) || {};
+    const rawCounts = getCountsForN(model, w1, w2, n) || {};
 
     let dist;
     if (smoothingMode === "add-k") {

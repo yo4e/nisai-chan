@@ -25,6 +25,10 @@
       </form>
       <div class="controls">
         <label class="control">
+          <span>N-GRAM（1〜3）</span>
+          <input id="ngram" type="number" min="1" max="3" step="1" value="3" />
+        </label>
+        <label class="control">
           <span>MIN_TOKENS</span>
           <input id="min-tokens" type="number" min="0" max="50" step="1" value="2" />
         </label>
@@ -36,12 +40,12 @@
           <span>SMOOTHING</span>
           <select id="smoothing-mode">
             <option value="backoff">backoff</option>
-            <option value="add-k">add-k</option>
+            <option value="add-k" selected>add-k</option>
           </select>
         </label>
         <label class="control" id="add-k-wrap">
           <span>ADD_K</span>
-          <input id="add-k" type="number" min="0" max="10" step="0.1" value="0.1" />
+          <input id="add-k" type="number" min="0" max="10" step="0.1" value="0.001" />
         </label>
         <label class="control">
           <span>JOINER</span>
@@ -65,6 +69,7 @@
           <p>SMOOTHING：未出の組み合わせに当たったときの逃げ方。backoffは安定寄り、add-kは多様性が出る。</p>
           <p>ADD_K：add-kのk値。大きいほど珍しい語も出やすくなる（やりすぎると散漫になりがち）。</p>
           <p class="note-tip">観察の目安：add-kはkを大きくすると「語は出るが意味は崩れる」方向に寄りやすい。</p>
+          <p>N-GRAM：次の語を決めるときに何語ぶんの文脈を見るか。1=unigram、2=bigram、3=trigram（デフォルト）。</p>
           <p>JOINER：表示だけの区切り。no-spaceは日本語向け、spaceはデバッグで語が見やすい。</p>
         </div>
       </div>

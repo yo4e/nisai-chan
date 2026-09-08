@@ -5,6 +5,7 @@ const lm = require("./lm");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const HOST = "127.0.0.1";
 
 app.use(express.json({ limit: "1mb" }));
 app.use(express.static(path.join(__dirname, "..", "web")));
@@ -71,6 +72,6 @@ app.post("/api/reset", (req, res) => {
   res.json({ ok: true, mode });
 });
 
-app.listen(PORT, () => {
-  console.log(`nisai-chan server running at http://localhost:${PORT}`);
+app.listen(PORT, HOST, () => {
+  console.log(`nisai-chan server running at http://${HOST}:${PORT}`);
 });

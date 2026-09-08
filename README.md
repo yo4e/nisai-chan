@@ -60,6 +60,8 @@ npm start
 http://localhost:3000
 ```
 
+サーバーはローカル専用として `127.0.0.1` にbindします。LANや外部ネットワークからの利用は想定していません。
+
 ## 画面
 ![2さいちゃんの画面](docs/screenshot.png)
 
